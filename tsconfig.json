@@ -6,13 +6,13 @@
     "outDir": "./dist",
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
     "target": "es2022",
+    "moduleResolution": "Bundler",
     // "types": [],
     // For nodejs:
     // "lib": ["esnext"],
-    "types": ["node"],
+    "types": ["jest", "node"],
     // and npm install -D @types/node
     // Other Outputs
     "sourceMap": true,
@@ -32,14 +32,13 @@
     "strict": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true
+    // "allowImportingTsExtensions": true,
+    // "noEmit": true
   },
   "include": [
     "src/**/*",
