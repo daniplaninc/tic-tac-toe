@@ -11,3 +11,4 @@
     - allow for more players? probably only makes sense on bigger boards
     - random board for test case generation (good or bad?)
     - parametrize board size in tests
+    - have an external game class with identites type in order to have an enum for more than just 2 types of players (maybe type can go outside of class?)

@@ -7,7 +7,7 @@ export class Player {
 }
 interface iBoard {
     getGameBoard(): any;
-    getGameStatus(): 'GAME ONGOING' | 'GAME OVER';
+    getGameStatus(players: Array<Player>): 'GAME ONGOING' | 'GAME OVER';
 }
 export class Board implements iBoard {
     private currentBoard: any;
@@ -28,14 +28,13 @@ export class Board implements iBoard {
         return this.currentBoard
     }
 
-    public getGameStatus() {
-        const board = this.currentBoard;
+    public getGameStatus(players: Array<Player>) {
         const boardIsFull = !this.currentBoard.flat().includes(null);
-        const hasWinningRow = this.currentBoard.some(row =>
-            row.every(cell => cell === 'X') || row.every(cell => cell === 'O')
+        const hasWinningRow = players.some(player => this.currentBoard.some(row =>
+            row.every(cell => cell === player.identity))
         );
-        const hasWinningCol = this.currentBoard[0].some((_, colIndex) =>
-            this.currentBoard.every(row => row[colIndex] === 'X') || this.currentBoard.every(row => row[colIndex] === 'O'));
+        const hasWinningCol = players.some(player => this.currentBoard[0].some((_, colIndex) =>
+            this.currentBoard.every(row => row[colIndex] === player.identity)));
 
         if (hasWinningRow || hasWinningCol || this.getDiagonalWinningState() || boardIsFull) {
             this.gameStatus = 'GAME OVER'
@@ -73,7 +72,7 @@ export class TicTacToe {
     }
 
     public currentGameStatus() {
-        return this.gameBoard.getGameStatus()
+        return this.gameBoard.getGameStatus(this.players)
     }
 
     public board() {
