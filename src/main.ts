@@ -5,7 +5,11 @@ export class Player {
         return this.identity;
     }
 }
-export class Board {
+interface iBoard {
+    getGameBoard(): any;
+    getGameStatus(): 'GAME ONGOING' | 'GAME OVER';
+}
+export class Board implements iBoard {
     private currentBoard: any;
     private gameStatus: 'GAME ONGOING' | 'GAME OVER';
 
@@ -61,9 +65,9 @@ export class Board {
 
 export class TicTacToe {
     private currentPlayer: 'X' | 'O';
-    private gameBoard: Board;
+    private gameBoard: iBoard;
 
-    constructor(gameBoard: Board, public players: Array<Player>) {
+    constructor(gameBoard: iBoard, public players: Array<Player>) {
         this.currentPlayer = 'X';
         this.gameBoard = gameBoard
     }
