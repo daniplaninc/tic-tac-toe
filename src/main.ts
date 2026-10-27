@@ -1,4 +1,10 @@
 class Game { }
+export class Player {
+    constructor(public identity: 'X' | 'O') {}
+    toString(): string {
+        return this.identity;
+    }
+}
 export class Board {
     private currentBoard: any;
     private gameStatus: 'GAME ONGOING' | 'GAME OVER';
@@ -8,9 +14,9 @@ export class Board {
         this.gameStatus = 'GAME ONGOING';
     }
 
-    private generateBoard(size: number){
+    private generateBoard(size: number) {
         const board = Array(size).fill(null).map(() => Array(size).fill(null));
-        
+
         return board
     }
 
@@ -26,7 +32,7 @@ export class Board {
         );
         const hasWinningCol = this.currentBoard[0].some((_, colIndex) =>
             this.currentBoard.every(row => row[colIndex] === 'X') || this.currentBoard.every(row => row[colIndex] === 'O'));
-        
+
         if (hasWinningRow || hasWinningCol || this.getDiagonalWinningState() || boardIsFull) {
             this.gameStatus = 'GAME OVER'
         }
@@ -34,7 +40,7 @@ export class Board {
         return this.gameStatus
     }
 
-    private getDiagonalWinningState(){
+    private getDiagonalWinningState() {
         const size = this.currentBoard.length;
 
         // 1. Grab the top-left and top-right values
@@ -42,29 +48,24 @@ export class Board {
         const antiDiagFirst = this.currentBoard[0][size - 1];
 
         // 2. Check if the entire diagonal matches its first item (and isn't null)
-        const hasMainDiagonalWin = mainDiagFirst !== null && 
+        const hasMainDiagonalWin = mainDiagFirst !== null &&
             this.currentBoard.every((row, i) => row[i] === mainDiagFirst);
 
-        const hasAntiDiagonalWin = antiDiagFirst !== null && 
+        const hasAntiDiagonalWin = antiDiagFirst !== null &&
             this.currentBoard.every((row, i) => row[size - 1 - i] === antiDiagFirst);
 
         // 3. Combine the results
         return hasMainDiagonalWin || hasAntiDiagonalWin;
     }
 }
-class Player { }
 
 export class TicTacToe {
     private currentPlayer: 'X' | 'O';
     private gameBoard: Board;
 
-    constructor(gameBoard: Board) {
+    constructor(gameBoard: Board, public players: Array<Player>) {
         this.currentPlayer = 'X';
         this.gameBoard = gameBoard
-    }
-
-    public players() {
-        return ['X', 'O']
     }
 
     public currentGameStatus() {

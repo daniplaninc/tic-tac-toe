@@ -1,18 +1,17 @@
-import { TicTacToe, Board } from '../src/main';
-
+import { TicTacToe, Board, Player } from '../src/main';
 
 describe('TicTacToe Business rules', () => {
 
   describe('Inital state', () => {
     it('should have two players in the game (X and O)', () => {
       const gameBoard = new Board
-      const ticTacToe = new TicTacToe(gameBoard);
-      const players = ['X', 'O'];
-      expect(ticTacToe.players()).toEqual(players);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
+      const players = 'X,O'
+      expect(ticTacToe.players.toString()).toEqual(players);
     });
     it('should have a field of a 3x3 grid by default', () => {
       const gameBoard = new Board
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       const board = [
         [null, null, null],
         [null, null, null],
@@ -22,7 +21,7 @@ describe('TicTacToe Business rules', () => {
     });
     it('should have a field of a 5x5 grid if specified', () => {
       const gameBoard = new Board(5)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       const board = [
         [null, null, null, null, null],
         [null, null, null, null, null],
@@ -37,19 +36,19 @@ describe('TicTacToe Business rules', () => {
   describe('Game turns on a 3x3 board', () => {
     it('a player can take a field if not already taken', () => {
       const gameBoard = new Board
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       ticTacToe.turn(0, 0);
       expect(ticTacToe.board()[0][0]).not.toBeNull()
     });
     it('a player can\'t take a field if already taken', () => {
       const gameBoard = new Board
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       ticTacToe.turn(0, 0);
       expect(() => ticTacToe.turn(0, 0)).toThrow();
     });
     it('players take turns one after another', () => {
       const gameBoard = new Board
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
       expect(ticTacToe.board()[0][0]).toBe('X')
@@ -57,7 +56,7 @@ describe('TicTacToe Business rules', () => {
     });
     it('after 4 turns there should be 2 Xs and 2 Os', () => {
       const gameBoard = new Board
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -74,19 +73,19 @@ describe('TicTacToe Business rules', () => {
   describe('Game turns on a 4x4 board', () => {
     it('a player can take a field if not already taken', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       ticTacToe.turn(0, 0);
       expect(ticTacToe.board()[0][0]).not.toBeNull()
     });
     it('a player can\'t take a field if already taken', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       ticTacToe.turn(0, 0);
       expect(() => ticTacToe.turn(0, 0)).toThrow();
     });
     it('players take turns one after another', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
       expect(ticTacToe.board()[0][0]).toBe('X')
@@ -94,7 +93,7 @@ describe('TicTacToe Business rules', () => {
     });
     it('after 4 turns there should be 2 Xs and 2 Os', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -111,7 +110,7 @@ describe('TicTacToe Business rules', () => {
   describe('Game over on a 4x4 board', () => {
     it('a game is over when all fields in a row are taken by a player', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(1, 1);
@@ -130,7 +129,7 @@ describe('TicTacToe Business rules', () => {
     });
     it('a game is over when all fields in a column are taken by a player', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -149,7 +148,7 @@ describe('TicTacToe Business rules', () => {
     });
     it('a game is ongoing when all fields in a diagonal are not taken by a player', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -168,7 +167,7 @@ describe('TicTacToe Business rules', () => {
     });
     it('a game is over when all fields in a diagonal are taken by a player', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -187,7 +186,7 @@ describe('TicTacToe Business rules', () => {
     });
     it('a game is over when all fields are taken', () => {
       const gameBoard = new Board(4)
-      const ticTacToe = new TicTacToe(gameBoard);
+      const ticTacToe = new TicTacToe(gameBoard, [new Player('X'), new Player('O')]);
 
       // Row 0
       ticTacToe.turn(0, 0); // X
