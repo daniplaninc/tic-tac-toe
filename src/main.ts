@@ -26,7 +26,10 @@ export class TicTacToe {
         const hasWinningRow = this.currentBoard.some(row =>
             row.every(cell => cell === 'X') || row.every(cell => cell === 'O')
         );
-        if (hasWinningRow) {
+        const hasWinningCol = this.currentBoard[0].some((_, colIndex) =>
+            this.currentBoard.every(row => row[colIndex] === 'X') || this.currentBoard.every(row => row[colIndex] === 'O'));
+
+        if (hasWinningRow || hasWinningCol) {
             this.gameStatus = 'GAME OVER'
         }
         return this.gameStatus

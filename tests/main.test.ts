@@ -71,7 +71,22 @@ describe('TicTacToe Business rules', () => {
 
       expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
     });
-    // it('a game is over when all fields in a column are taken by a player', () => {});
+    it('a game is over when all fields in a column are taken by a player', () => {
+      const ticTacToe = new TicTacToe();
+
+      ticTacToe.turn(0, 0);
+      ticTacToe.turn(0, 1);
+      ticTacToe.turn(1, 0);
+      ticTacToe.turn(0, 2);
+      ticTacToe.turn(2, 0);
+
+      const board = ticTacToe.board().flat();
+
+      expect(board.filter(c => c === 'X')).toHaveLength(3)
+      expect(board.filter(c => c === 'O')).toHaveLength(2)
+
+      expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
+    });
     // it('a game is over when all fields in a diagonal are taken by a player', () => {});
     // it('a game is over when all fields are taken', () => {});
   });
