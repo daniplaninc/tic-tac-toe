@@ -23,13 +23,20 @@ export class TicTacToe {
 
     public currentGameStatus() {
         const board = this.board();
+        const boardIsFull = !board.includes(null);
         const hasWinningRow = this.currentBoard.some(row =>
             row.every(cell => cell === 'X') || row.every(cell => cell === 'O')
         );
         const hasWinningCol = this.currentBoard[0].some((_, colIndex) =>
             this.currentBoard.every(row => row[colIndex] === 'X') || this.currentBoard.every(row => row[colIndex] === 'O'));
-
-        if (hasWinningRow || hasWinningCol) {
+        const hasWinningDiagonal =
+            // Check for 'X'
+            (this.currentBoard[0][0] === 'X' && this.currentBoard[1][1] === 'X' && this.currentBoard[2][2] === 'X') ||
+            (this.currentBoard[0][2] === 'X' && this.currentBoard[1][1] === 'X' && this.currentBoard[2][0] === 'X') ||
+            // Check for 'O'
+            (this.currentBoard[0][0] === 'O' && this.currentBoard[1][1] === 'O' && this.currentBoard[2][2] === 'O') ||
+            (this.currentBoard[0][2] === 'O' && this.currentBoard[1][1] === 'O' && this.currentBoard[2][0] === 'O');
+        if (hasWinningRow || hasWinningCol || hasWinningDiagonal || boardIsFull) {
             this.gameStatus = 'GAME OVER'
         }
         return this.gameStatus

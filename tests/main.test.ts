@@ -87,8 +87,45 @@ describe('TicTacToe Business rules', () => {
 
       expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
     });
-    // it('a game is over when all fields in a diagonal are taken by a player', () => {});
-    // it('a game is over when all fields are taken', () => {});
+    it('a game is over when all fields in a diagonal are taken by a player', () => {
+      const ticTacToe = new TicTacToe();
+
+      ticTacToe.turn(0, 0);
+      ticTacToe.turn(0, 1);
+      ticTacToe.turn(1, 1);
+      ticTacToe.turn(0, 2);
+      ticTacToe.turn(2, 2);
+
+      const board = ticTacToe.board().flat();
+
+      expect(board.filter(c => c === 'X')).toHaveLength(3)
+      expect(board.filter(c => c === 'O')).toHaveLength(2)
+
+      expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
+    });
+    it('a game is over when all fields are taken', () => {
+      const ticTacToe = new TicTacToe();
+
+      // Fill the board in a sequence that results in a draw
+      ticTacToe.turn(0, 0); // X
+      ticTacToe.turn(0, 1); // O
+      ticTacToe.turn(0, 2); // X
+      ticTacToe.turn(1, 1); // O
+      ticTacToe.turn(1, 0); // X
+      ticTacToe.turn(1, 2); // O
+      ticTacToe.turn(2, 1); // X
+      ticTacToe.turn(2, 0); // O
+      ticTacToe.turn(2, 2); // X
+
+      const board = ticTacToe.board().flat();
+
+      // A full board always has 5 'X's and 4 'O's (assuming X goes first)
+      expect(board.filter(c => c === 'X')).toHaveLength(5);
+      expect(board.filter(c => c === 'O')).toHaveLength(4);
+      expect(board.includes(null)).toBe(false); // Ensure the board is completely full
+
+      expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
+    });
   });
 });
 
