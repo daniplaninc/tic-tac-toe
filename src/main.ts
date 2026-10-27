@@ -20,24 +20,36 @@ export class Board {
 
     public getGameStatus() {
         const board = this.currentBoard;
-        const boardIsFull = !board.includes(null);
+        const boardIsFull = !this.currentBoard.flat().includes(null);
         const hasWinningRow = this.currentBoard.some(row =>
             row.every(cell => cell === 'X') || row.every(cell => cell === 'O')
         );
         const hasWinningCol = this.currentBoard[0].some((_, colIndex) =>
             this.currentBoard.every(row => row[colIndex] === 'X') || this.currentBoard.every(row => row[colIndex] === 'O'));
-        const hasWinningDiagonal =
-            // Check for 'X'
-            (this.currentBoard[0][0] === 'X' && this.currentBoard[1][1] === 'X' && this.currentBoard[2][2] === 'X') ||
-            (this.currentBoard[0][2] === 'X' && this.currentBoard[1][1] === 'X' && this.currentBoard[2][0] === 'X') ||
-            // Check for 'O'
-            (this.currentBoard[0][0] === 'O' && this.currentBoard[1][1] === 'O' && this.currentBoard[2][2] === 'O') ||
-            (this.currentBoard[0][2] === 'O' && this.currentBoard[1][1] === 'O' && this.currentBoard[2][0] === 'O');
-        if (hasWinningRow || hasWinningCol || hasWinningDiagonal || boardIsFull) {
+        
+        if (hasWinningRow || hasWinningCol || this.getDiagonalWinningState() || boardIsFull) {
             this.gameStatus = 'GAME OVER'
         }
 
         return this.gameStatus
+    }
+
+    private getDiagonalWinningState(){
+        const size = this.currentBoard.length;
+
+        // 1. Grab the top-left and top-right values
+        const mainDiagFirst = this.currentBoard[0][0];
+        const antiDiagFirst = this.currentBoard[0][size - 1];
+
+        // 2. Check if the entire diagonal matches its first item (and isn't null)
+        const hasMainDiagonalWin = mainDiagFirst !== null && 
+            this.currentBoard.every((row, i) => row[i] === mainDiagFirst);
+
+        const hasAntiDiagonalWin = antiDiagFirst !== null && 
+            this.currentBoard.every((row, i) => row[size - 1 - i] === antiDiagFirst);
+
+        // 3. Combine the results
+        return hasMainDiagonalWin || hasAntiDiagonalWin;
     }
 }
 class Player { }
