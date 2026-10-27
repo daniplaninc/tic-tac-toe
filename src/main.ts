@@ -1,28 +1,23 @@
 class Game { }
-class Board { }
-class Player { }
-
-export class TicTacToe {
-    private currentPlayer: 'X' | 'O';
-    private gameStatus: 'GAME ONGOING' | 'GAME OVER';
+export class Board {
     private currentBoard: any;
+    private gameStatus: 'GAME ONGOING' | 'GAME OVER';
 
     constructor() {
-        this.currentPlayer = 'X';
-        this.gameStatus = 'GAME ONGOING';
         this.currentBoard = [
             [null, null, null],
             [null, null, null],
             [null, null, null]
         ];
+        this.gameStatus = 'GAME ONGOING';
     }
 
-    public players() {
-        return ['X', 'O']
+    public getGameBoard() {
+        return this.currentBoard
     }
 
-    public currentGameStatus() {
-        const board = this.board();
+    public getGameStatus() {
+        const board = this.currentBoard;
         const boardIsFull = !board.includes(null);
         const hasWinningRow = this.currentBoard.some(row =>
             row.every(cell => cell === 'X') || row.every(cell => cell === 'O')
@@ -39,16 +34,36 @@ export class TicTacToe {
         if (hasWinningRow || hasWinningCol || hasWinningDiagonal || boardIsFull) {
             this.gameStatus = 'GAME OVER'
         }
+
         return this.gameStatus
+    }
+}
+class Player { }
+
+export class TicTacToe {
+    private currentPlayer: 'X' | 'O';
+    private gameBoard: Board;
+
+    constructor(gameBoard: Board) {
+        this.currentPlayer = 'X';
+        this.gameBoard = gameBoard
+    }
+
+    public players() {
+        return ['X', 'O']
+    }
+
+    public currentGameStatus() {
+        return this.gameBoard.getGameStatus()
     }
 
     public board() {
-        return this.currentBoard;
+        return this.gameBoard.getGameBoard();
     }
 
     public turn(col: number, row: number) {
-        if (this.currentBoard[col][row] === null) {
-            this.currentBoard[col][row] = this.currentPlayer;
+        if (this.board()[col][row] === null) {
+            this.board()[col][row] = this.currentPlayer;
             this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X'
         } else {
             throw new Error('');

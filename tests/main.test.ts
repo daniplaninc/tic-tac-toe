@@ -1,16 +1,18 @@
-import { TicTacToe } from '../src/main';
+import { TicTacToe, Board } from '../src/main';
 
 
 describe('TicTacToe Business rules', () => {
 
   describe('Inital state', () => {
     it('should have two players in the game (X and O)', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
       const players = ['X', 'O'];
       expect(ticTacToe.players()).toEqual(players);
     });
     it('should have a field of a 3x3 grid', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
       const board = [
         [null, null, null],
         [null, null, null],
@@ -23,24 +25,28 @@ describe('TicTacToe Business rules', () => {
 
   describe('Game turns', () => {
     it('a player can take a field if not already taken', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
       ticTacToe.turn(0, 0);
       expect(ticTacToe.board()[0][0]).not.toBeNull()
     });
     it('a player can\'t take a field if already taken', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
       ticTacToe.turn(0, 0);
       expect(() => ticTacToe.turn(0, 0)).toThrow();
     });
     it('players take turns one after another', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
       expect(ticTacToe.board()[0][0]).toBe('X')
       expect(ticTacToe.board()[0][1]).toBe('O')
     });
     it('after 4 turns there should be 2 Xs and 2 Os', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -56,7 +62,8 @@ describe('TicTacToe Business rules', () => {
 
   describe('Game over', () => {
     it('a game is over when all fields in a row are taken by a player', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(1, 1);
@@ -72,7 +79,8 @@ describe('TicTacToe Business rules', () => {
       expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
     });
     it('a game is over when all fields in a column are taken by a player', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -88,7 +96,8 @@ describe('TicTacToe Business rules', () => {
       expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
     });
     it('a game is over when all fields in a diagonal are taken by a player', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
 
       ticTacToe.turn(0, 0);
       ticTacToe.turn(0, 1);
@@ -104,7 +113,8 @@ describe('TicTacToe Business rules', () => {
       expect(ticTacToe.currentGameStatus()).toBe('GAME OVER')
     });
     it('a game is over when all fields are taken', () => {
-      const ticTacToe = new TicTacToe();
+      const gameBoard = new Board
+      const ticTacToe = new TicTacToe(gameBoard);
 
       // Fill the board in a sequence that results in a draw
       ticTacToe.turn(0, 0); // X

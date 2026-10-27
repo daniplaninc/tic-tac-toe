@@ -1,6 +1,5 @@
 # Plan
 
-- implement "game over" cases
 - refactor ideas
     - improve winning condition detection algorithm
     - parametrize the test generation for winning condition
