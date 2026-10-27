@@ -20,7 +20,18 @@ describe('TicTacToe Business rules', () => {
       ];
       expect(ticTacToe.board()).toEqual(board)
     });
-    // OPTIONAL: it('should have a field of a 5x5 grid', () => {});
+    it('should have a field of a 5x5 grid', () => {
+      const gameBoard = new Board(5)
+      const ticTacToe = new TicTacToe(gameBoard);
+      const board = [
+        [null, null, null, null, null],
+        [null, null, null, null, null],
+        [null, null, null, null, null],
+        [null, null, null, null, null],
+        [null, null, null, null, null],
+      ];
+      expect(ticTacToe.board()).toEqual(board)
+    });
   });
 
   describe('Game turns', () => {

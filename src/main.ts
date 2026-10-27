@@ -3,13 +3,15 @@ export class Board {
     private currentBoard: any;
     private gameStatus: 'GAME ONGOING' | 'GAME OVER';
 
-    constructor() {
-        this.currentBoard = [
-            [null, null, null],
-            [null, null, null],
-            [null, null, null]
-        ];
+    constructor(boardSize: number = 3) {
+        this.currentBoard = this.generateBoard(boardSize)
         this.gameStatus = 'GAME ONGOING';
+    }
+
+    private generateBoard(size: number){
+        const board = Array(size).fill(null).map(() => Array(size).fill(null));
+        
+        return board
     }
 
     public getGameBoard() {
