@@ -4,10 +4,12 @@ class Player { }
 
 export class TicTacToe {
     private currentPlayer: 'X' | 'O';
+    private gameStatus: 'GAME ONGOING' | 'GAME OVER';
     private currentBoard: any;
 
     constructor() {
         this.currentPlayer = 'X';
+        this.gameStatus = 'GAME ONGOING';
         this.currentBoard = [
             [null, null, null],
             [null, null, null],
@@ -17,6 +19,17 @@ export class TicTacToe {
 
     public players() {
         return ['X', 'O']
+    }
+
+    public currentGameStatus() {
+        const board = this.board();
+        const hasWinningRow = this.currentBoard.some(row =>
+            row.every(cell => cell === 'X') || row.every(cell => cell === 'O')
+        );
+        if (hasWinningRow) {
+            this.gameStatus = 'GAME OVER'
+        }
+        return this.gameStatus
     }
 
     public board() {
