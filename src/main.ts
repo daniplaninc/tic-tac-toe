@@ -1,13 +1,13 @@
 class Game { }
 export class Player {
-    constructor(public identity: 'X' | 'O') {}
+    constructor(public identity: 'X' | 'O') { }
     toString(): string {
         return this.identity;
     }
 }
 interface iBoard {
     getGameBoard(): any;
-    getGameStatus(players: Array<Player>): 'GAME ONGOING' | 'GAME OVER';
+    getGameStatus(): 'GAME ONGOING' | 'GAME OVER';
 }
 export class Board implements iBoard {
     private currentBoard: any;
@@ -28,13 +28,16 @@ export class Board implements iBoard {
         return this.currentBoard
     }
 
-    public getGameStatus(players: Array<Player>) {
+    public getGameStatus() {
         const boardIsFull = !this.currentBoard.flat().includes(null);
-        const hasWinningRow = players.some(player => this.currentBoard.some(row =>
-            row.every(cell => cell === player.identity))
+        const hasWinningRow = this.currentBoard.some(row =>
+            row[0] !== null && row.every(cell => cell === row[0])
         );
-        const hasWinningCol = players.some(player => this.currentBoard[0].some((_, colIndex) =>
-            this.currentBoard.every(row => row[colIndex] === player.identity)));
+        const hasWinningCol = this.currentBoard[0].some((_, colIndex) => {
+            const firstCell = this.currentBoard[0][colIndex];
+
+            return firstCell !== null && this.currentBoard.every(row => row[colIndex] === firstCell);
+        });
 
         if (hasWinningRow || hasWinningCol || this.getDiagonalWinningState() || boardIsFull) {
             this.gameStatus = 'GAME OVER'
